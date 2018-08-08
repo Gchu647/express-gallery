@@ -13,6 +13,7 @@ const PORT = process.env.PORT || 8060;
 
 app.use(express.static('public'));
 app.use(bodyParser.urlencoded({ extended: true}));
+app.use(bodyParser.json()); // works with RAW json
 //hbs
 app.engine('.hbs', exphbs({
   defaultLayout: 'main',
@@ -38,10 +39,6 @@ passport.serializeUser((user, done) => {
   return done( null, {
     id: user.id,
     username: user.username
-  })
-  .catch((err) => {
-    console.log(err);
-    return done(err);
   })
 });
 
@@ -100,11 +97,21 @@ app.post('/register', (req, res) => {
 });
 
 app.post('/login', passport.authenticate('local', {
-  successRedirect: '/gallery',
+  successRedirect: '/secret',
   failureRedirect: '/'
 }));
 
+function isAuthenticated (req, res, next) {
+  if(req.isAuthenticated()) {next();}
+  else {res.redirect('/'); }
+}
 
+app.get('/secret', isAuthenticated, (req, res) => {
+  console.log('req.user: ', req.user);
+  console.log('req.user.id', req.user.id);
+  console.log('req.user.username', req.user.username);
+  res.send('you found the secret');
+})
 
 
 
