@@ -1,23 +1,15 @@
 <style>
   .photo{
-    display: : flex;
-    flex-flow: row wrap;
-    align-items: center;
     margin-top: 10px;
-    border: solid 2px lightskyblue;
-  }
-  img {
-    width: 300px;
-    height: 300px;
   }
 </style>
 
 <div class='collection'>
 {{#each collection}}
   <div class='photo'>
-    <div>Author: {{author}}</div>
+    <h3>Author: {{author}}</h3>
     <img src={{link}}>
-    <div>{{description}}</div>
+    <p>{{description}}</p>
   </div>
 {{/each}}
 </div>

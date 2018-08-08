@@ -25,8 +25,6 @@ router.route('/')
       .then( photos => {
         // converts the weird object from db to and usable object
         const collection = JSON.parse(JSON.stringify(photos));
-        console.log('Sending ', collection);
-
         res.render('gallery/index', { collection });
       })
       .catch(err => {
@@ -47,7 +45,10 @@ router.route('/')
             noPhotoErr.statuscode = 404;
             throw noPhotoErr;
           }
-          return res.json(photo);
+
+          let photoObj = JSON.parse(JSON.stringify(photo));
+          return res.render('gallery/photo', photoObj);
+          // return res.json(photo);
         })
         .catch( err => {
           if (err.statuscode) {
