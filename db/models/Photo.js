@@ -9,4 +9,4 @@ class Photo extends bookshelf.Model {
   }
 }
 
-module.exports = bookshelf.Model('Photo', Photo);
+module.exports = bookshelf.model('Photo', Photo);

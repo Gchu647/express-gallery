@@ -81,7 +81,7 @@ passport.use(new localStrategy(function(username, password, done) {
     console.log('error: ', err);
     return done(err);
   })
-})
+}));
 
 
 
@@ -110,9 +110,6 @@ passport.use(new localStrategy(function(username, password, done) {
 
 
 //-----------------------------------//
-app.get('/', (req, res) => {
-  res.send('smoke test!');
-});
 
 app.use('/gallery', gallery);
 
