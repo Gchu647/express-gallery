@@ -7,6 +7,6 @@ exports.up = function(knex, Promise) {
 
 exports.down = function(knex, Promise) {
   return knex.schema.alterTable('photos', table => {
-    table.dropForeign('author_id');
+    table.dropColumn('author_id');
   })
 };

@@ -83,27 +83,26 @@ passport.use(new localStrategy(function(username, password, done) {
   })
 }));
 
+app.post('/register', (req, res) => {
+  return new User ({
+    username: req.body.username,
+    password: req.body.password
+  })
+  .save()
+  .then((user) => {
+    console.log(user);
+    res.redirect('/');
+  })
+  .catch( err => {
+    console.log(err);
+    return res.send('could not register you!');
+  })
+});
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+app.post('/login', passport.authenticate('local', {
+  successRedirect: '/gallery',
+  failureRedirect: '/'
+}));
 
 
 
@@ -116,13 +115,13 @@ app.use('/gallery', gallery);
 
 app.get('*', (req, res) => {
   res.status(404).render('404', {'message': 'Page not found!'});
-})
+});
 
 app.use(function(err, req, res, next) {
   console.log(err.stack);
   res.status(500).send('Something broke on the server side');
-})
+});
 
 app.listen(PORT, () => {
   console.log(`server is listening on ${PORT}`);
-})
+});
