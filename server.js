@@ -26,7 +26,7 @@ app.get('*', (req, res) => {
 })
 
 app.use(function(err, req, res, next) {
-  console.err(err.stack);
+  console.log(err.stack);
   res.status(500).send('Something broke on the server side');
 })
 
