@@ -3,6 +3,8 @@ const express = require('express');
 const router = express.Router();
 const passport = require('passport');
 const User = require('../db/models/User');
+const bcrypt = require('bcrypt');
+const saltedRounds = 12; // bcrypt salting
 
 router.get('/', (req, res) => {
   res.redirect('/login');
@@ -24,19 +26,28 @@ router.route('/register')
     res.render('users/register');
   })
   .post((req, res) => {
-    return new User ({
-      username: req.body.username,
-      password: req.body.password
+    bcrypt.genSalt(saltedRounds, (err, salt) => {
+      if (err) { res.status(500); }
+      bcrypt.hash(req.body.password, salt, (err, hashedPassword) => {
+        if (err) { res.status(500); }
+        
+        return new User ({
+          username: req.body.username,
+          password: hashedPassword
+        })
+        .save()
+        .then((user) => {
+          console.log(user);
+          res.redirect('/');
+        })
+        .catch( err => {
+          console.log(err);
+          return res.send('could not register you!');
+        })
+
+      })
     })
-    .save()
-    .then((user) => {
-      console.log(user);
-      res.redirect('/');
-    })
-    .catch( err => {
-      console.log(err);
-      return res.send('could not register you!');
-    })
+
   });
 
 module.exports = router;

@@ -8,6 +8,7 @@ const passport = require('passport');
 const localStrategy = require('passport-local');
 const exphbs = require('express-handlebars');
 const methodOveride = require('method-override');
+const bcrypt = require('bcrypt');
 const gallery = require('./routes/gallery');
 const system = require('./routes/system');
 
@@ -62,16 +63,18 @@ passport.use(new localStrategy(function(username, password, done) {
   return new User({username: username}).fetch()
   .then( user => {
     user = JSON.parse(JSON.stringify(user));
-    console.log(user)
+
     if(user == null) {
       return done(null, false, {message: 'bad username or password'});
     } 
     else {
-      console.log(password, user.password);
-      if(password === user.password) { return done(null, user); }
-      else {
-        return done(null, false, {message: 'bad username or password'});
-      }
+      bcrypt.compare(password, user.password)
+      .then (samePassword =>{
+        if(samePassword) { return done(null, user); }
+        else {
+          return done(null, false, {message: 'bad username or password'});
+        }
+      })
     }
   })
   .catch( err => {
