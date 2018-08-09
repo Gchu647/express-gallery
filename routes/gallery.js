@@ -5,7 +5,7 @@ const isAuthenticated = require('../middleware/isAuthenticated');
 
 router.route('/')
   // post a new photo up
-  .post(isAuthenticated, (req, res) => {
+  .post((req, res) => {
     let { author, link, description } = req.body;
     author = author.trim();
     link = link.trim();
@@ -21,7 +21,7 @@ router.route('/')
       });
   })
   // return all the photos in our gallery
-  .get(isAuthenticated, (req, res) => {
+  .get((req, res) => {
     return Photo.fetchAll()
       .then( photos => {
         // converts the weird object from db to and usable object
@@ -32,6 +32,10 @@ router.route('/')
         return res.json({ message: err.message });
       })
   });
+
+  router.get('/new', (req, res) => {
+    res.render('gallery/new');
+  })
 
   router.route('/:id')
     // get a photo based on id
@@ -49,7 +53,6 @@ router.route('/')
 
           let photoObj = JSON.parse(JSON.stringify(photo));
           return res.render('gallery/photo', photoObj);
-          // return res.json(photo);
         })
         .catch( err => {
           if (err.statuscode) {
