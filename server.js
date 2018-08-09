@@ -8,14 +8,14 @@ const localStrategy = require('passport-local');
 const exphbs = require('express-handlebars');
 const methodOveride = require('method-override');
 const gallery = require('./routes/gallery');
+const users = require('./routes/users');
 
 //-- SET UP  --//
 const PORT = process.env.PORT || 8060;
 
-app.use(express.static('public'));
+// app.use(express.static('public'));
+app.use('/', users);
 app.use(bodyParser.urlencoded({ extended: true}));
-app.use(bodyParser.json()); // works with RAW json
-//hbs
 
 app.use(methodOveride('_method'));
 
@@ -50,7 +50,8 @@ passport.deserializeUser((user, done) => {
   console.log('deserializing');
   new User({ id: user.id}).fetch()
   .then(user => {
-    user = user.toJSON(); // Parse this for urlEncoded
+    // user = user.toJSON(); // Parse this for urlEncoded
+    user = JSON.parse(JSON.stringify(user));
     return done(null, {
       id: user.id,
       username: user.username
@@ -65,7 +66,8 @@ passport.deserializeUser((user, done) => {
 passport.use(new localStrategy(function(username, password, done) {
   return new User({username: username}).fetch()
   .then( user => {
-    user = user.toJSON(); // Parse this for urlEncoded
+    // user = user.toJSON(); // Parse this for urlEncoded
+    user = JSON.parse(JSON.stringify(user));
     console.log(user)
     if(user == null) {
       return done(null, false, {message: 'bad username or password'});

@@ -17,7 +17,8 @@ module.exports = {
     migrations: {
       directory: path.join(__dirname, 'db', 'migrations'),
       tableName: 'knex_migrations'
-    }
+    },
+    debug: false
   },
 
   staging: {
