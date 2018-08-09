@@ -23,12 +23,12 @@ router.route('/')
   })
   // return all the photos in our gallery
   .get(isAuthenticated, (req, res) => {
+    console.log('usser GET: ', req.session.passport.user);
+
     return Photo.fetchAll()
       .then( photos => {
         // converts the weird object from db to and usable object
         const collection = JSON.parse(JSON.stringify(photos));
-        console.log('This is GET: ', collection);
-
         res.render('gallery/index', { collection });
       })
       .catch(err => {
@@ -44,7 +44,6 @@ router.route('/')
   // gets form to edit pictures
   router.get('/:id/edit', isAuthenticated, (req, res) => {
     const id = req.params.id;
-    console.log('inside the edit body: ', req.body);
     res.render('gallery/edit', req.body);
   })
 
