@@ -14,7 +14,8 @@ router.route('/')
     return new Photo({ author, link, description })
       .save()
       .then( photo => {
-        return res.json(photo);
+        // to do: add a photo posted message
+        return res.redirect('/gallery');
       })
       .catch(err => {
         return res.json({ message: err.message });
@@ -84,7 +85,7 @@ router.route('/')
           'description': req.body.description,
         }, {'patch': true}) // patch turns insert into an update
         .then( photo => {
-          return res.json(photo);
+          return res.redirect(`/gallery/${id}`);
         })
         .catch(err => {
           return res.json({ message: err.message });
