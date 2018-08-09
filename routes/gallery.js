@@ -26,6 +26,8 @@ router.route('/')
       .then( photos => {
         // converts the weird object from db to and usable object
         const collection = JSON.parse(JSON.stringify(photos));
+        console.log('This is GET: ', collection);
+
         res.render('gallery/index', { collection });
       })
       .catch(err => {
@@ -38,6 +40,7 @@ router.route('/')
     res.render('gallery/new');
   })
 
+  // gets form to edit pictures
   router.get('/:id/edit', (req, res) => {
     const id = req.params.id;
     console.log('inside the edit body: ', req.body);
