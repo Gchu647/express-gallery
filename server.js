@@ -7,6 +7,7 @@ const passport = require('passport');
 const localStrategy = require('passport-local');
 const exphbs = require('express-handlebars');
 const gallery = require('./routes/gallery');
+const isAuthenticated = require('./middleware/isAuthenticated');
 
 //-- SET UP  --//
 const PORT = process.env.PORT || 8060;
@@ -100,18 +101,6 @@ app.post('/login', passport.authenticate('local', {
   successRedirect: '/gallery',
   failureRedirect: '/'
 }));
-
-function isAuthenticated (req, res, next) {
-  if(req.isAuthenticated()) {next();}
-  else {res.redirect('/'); }
-}
-
-app.get('/secret', isAuthenticated, (req, res) => {
-  console.log('req.user: ', req.user);
-  console.log('req.user.id', req.user.id);
-  console.log('req.user.username', req.user.username);
-  res.send('you found the secret');
-})
 
 
 

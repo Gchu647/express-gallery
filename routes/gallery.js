@@ -1,13 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const Photo = require('../db/models/Photo');
-
-function isAuthenticated (req, res, next) {
-  if(req.isAuthenticated()) {next();}
-  else {res.redirect('/'); }
-}
-
-
+const isAuthenticated = require('../middleware/isAuthenticated');
 
 router.route('/')
   // post a new photo up
