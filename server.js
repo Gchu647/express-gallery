@@ -6,6 +6,7 @@ const Redis = require('connect-redis')(session);
 const passport = require('passport');
 const localStrategy = require('passport-local');
 const exphbs = require('express-handlebars');
+const methodOveride = require('method-override');
 const gallery = require('./routes/gallery');
 
 //-- SET UP  --//
@@ -15,6 +16,9 @@ app.use(express.static('public'));
 app.use(bodyParser.urlencoded({ extended: true}));
 app.use(bodyParser.json()); // works with RAW json
 //hbs
+
+app.use(methodOveride('_method'));
+
 app.engine('.hbs', exphbs({
   defaultLayout: 'main',
   extname: '.hbs'
@@ -46,7 +50,7 @@ passport.deserializeUser((user, done) => {
   console.log('deserializing');
   new User({ id: user.id}).fetch()
   .then(user => {
-    user = user.toJSON();
+    user = user.toJSON(); // Parse this for urlEncoded
     return done(null, {
       id: user.id,
       username: user.username
@@ -61,7 +65,7 @@ passport.deserializeUser((user, done) => {
 passport.use(new localStrategy(function(username, password, done) {
   return new User({username: username}).fetch()
   .then( user => {
-    user = user.toJSON();
+    user = user.toJSON(); // Parse this for urlEncoded
     console.log(user)
     if(user == null) {
       return done(null, false, {message: 'bad username or password'});

@@ -1,3 +1,14 @@
+<div class='photo'>
   <h3>Author: {{author}}</h3>
   <img src={{link}}>
   <p>{{description}}</p>
+</div>
+<br>
+<form action='/gallery/{{id}}/edit?_method=GET' method='POST'>
+  <input type='hidden' name='id' value='{{id}}'>
+  <input type='hidden' name='author' value='{{author}}'>
+  <input type='hidden' name='link' value='{{link}}'>
+  <input type='hidden' name='description' value='{{description}}'>
+  <input type='submit' value='edit'>
+</form>
+

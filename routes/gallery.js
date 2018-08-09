@@ -33,8 +33,15 @@ router.route('/')
       })
   });
 
+  // gets form to post pictures
   router.get('/new', (req, res) => {
     res.render('gallery/new');
+  })
+
+  router.get('/:id/edit', (req, res) => {
+    const id = req.params.id;
+    console.log('inside the edit body: ', req.body);
+    res.render('gallery/edit', req.body);
   })
 
   router.route('/:id')
@@ -52,6 +59,7 @@ router.route('/')
           }
 
           let photoObj = JSON.parse(JSON.stringify(photo));
+          photoObj.id = id;
           return res.render('gallery/photo', photoObj);
         })
         .catch( err => {

@@ -1,0 +1,14 @@
+<h1>Edit Photo</h1>
+<form action='/gallery/{{id}}?_method=PUT' method='POST'>
+  <label for='author'>Author: </label>
+  <input name='author' type='text' value='{{author}}'required>
+
+  <br><br>
+  <label for='link'>Photo Link: </label>
+  <input name='link' type='text' value='{{link}}' required>
+
+  <br><br>
+  <textarea name='description' rows='10' cols='60'>{{description}}</textarea>
+  <br><br>
+  <input type='submit' value='post'>
+</form>
