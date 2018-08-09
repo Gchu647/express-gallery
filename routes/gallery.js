@@ -5,7 +5,7 @@ const isAuthenticated = require('../middleware/isAuthenticated');
 
 router.route('/')
   // post a new photo up
-  .post((req, res) => {
+  .post(isAuthenticated, (req, res) => {
     let { author, link, description } = req.body;
     author = author.trim();
     link = link.trim();
@@ -22,7 +22,7 @@ router.route('/')
       });
   })
   // return all the photos in our gallery
-  .get((req, res) => {
+  .get(isAuthenticated, (req, res) => {
     return Photo.fetchAll()
       .then( photos => {
         // converts the weird object from db to and usable object
@@ -37,12 +37,12 @@ router.route('/')
   });
 
   // gets form to post pictures
-  router.get('/new', (req, res) => {
+  router.get('/new', isAuthenticated, (req, res) => {
     res.render('gallery/new');
   })
 
   // gets form to edit pictures
-  router.get('/:id/edit', (req, res) => {
+  router.get('/:id/edit', isAuthenticated, (req, res) => {
     const id = req.params.id;
     console.log('inside the edit body: ', req.body);
     res.render('gallery/edit', req.body);
@@ -50,7 +50,7 @@ router.route('/')
 
   router.route('/:id')
     // get a photo based on id
-    .get((req, res) => {
+    .get(isAuthenticated, (req, res) => {
       const id = req.params.id;
       return new Photo()
         .where({ id })
@@ -75,7 +75,7 @@ router.route('/')
         })
     })
     // edits a photo by id
-    .put((req, res) => {
+    .put(isAuthenticated, (req, res) => {
       const id = req.params.id;
       return new Photo()
         .where({ id })
@@ -92,7 +92,7 @@ router.route('/')
         });
     })
     //deletes a photo by id
-    .delete((req, res) => {
+    .delete(isAuthenticated, (req, res) => {
       const id = req.params.id;
       return new Photo()
         .where({ id })

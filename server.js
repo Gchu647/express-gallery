@@ -13,8 +13,7 @@ const users = require('./routes/users');
 //-- SET UP  --//
 const PORT = process.env.PORT || 8060;
 
-// app.use(express.static('public'));
-app.use('/', users);
+app.use('/', users); //Sends us to loging or register
 app.use(bodyParser.urlencoded({ extended: true}));
 
 app.use(methodOveride('_method'));
@@ -66,7 +65,6 @@ passport.deserializeUser((user, done) => {
 passport.use(new localStrategy(function(username, password, done) {
   return new User({username: username}).fetch()
   .then( user => {
-    // user = user.toJSON(); // Parse this for urlEncoded
     user = JSON.parse(JSON.stringify(user));
     console.log(user)
     if(user == null) {
@@ -94,7 +92,7 @@ app.post('/register', (req, res) => {
   .save()
   .then((user) => {
     console.log(user);
-    res.redirect('/');
+    res.redirect('/user/login');
   })
   .catch( err => {
     console.log(err);
@@ -104,7 +102,7 @@ app.post('/register', (req, res) => {
 
 app.post('/login', passport.authenticate('local', {
   successRedirect: '/gallery',
-  failureRedirect: '/'
+  failureRedirect: '/user/login'
 }));
 
 
