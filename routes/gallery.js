@@ -23,11 +23,8 @@ router.route('/')
   })
   // return all the photos in our gallery
   .get(isAuthenticated, (req, res) => {
-    console.log('usser GET: ', req.session.passport.user);
-
     return Photo.fetchAll()
       .then( photos => {
-        // converts the weird object from db to and usable object
         const collection = JSON.parse(JSON.stringify(photos));
         res.render('gallery/index', { collection });
       })
@@ -36,9 +33,12 @@ router.route('/')
       })
   });
 
-  // gets form to post pictures
+  // gets form to post pictures WORKING ON
   router.get('/new', isAuthenticated, (req, res) => {
-    res.render('gallery/new');
+    console.log('usser GET new: ', req.session.passport.user);
+    const author = req.session.passport.user.username;
+    // pass in a user id too!
+    res.render('gallery/new', { author });
   })
 
   // gets form to edit pictures
@@ -51,6 +51,7 @@ router.route('/')
     // get a photo based on id
     .get(isAuthenticated, (req, res) => {
       const id = req.params.id;
+
       return new Photo()
         .where({ id })
         .fetch()
@@ -76,6 +77,7 @@ router.route('/')
     // edits a photo by id
     .put(isAuthenticated, (req, res) => {
       const id = req.params.id;
+
       return new Photo()
         .where({ id })
         .save({

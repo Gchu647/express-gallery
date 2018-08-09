@@ -37,6 +37,7 @@ app.use(passport.session());
 
 passport.serializeUser((user, done) => {
   console.log('serializing');
+  //Keep track of author_id being used, set it to null once it is logged out.
   return done( null, {
     id: user.id,
     username: user.username
