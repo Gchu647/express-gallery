@@ -1,3 +1,4 @@
+// this file is the server
 const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
@@ -10,15 +11,12 @@ const methodOveride = require('method-override');
 const gallery = require('./routes/gallery');
 const system = require('./routes/system');
 
-//-- SET UP  --//
-const PORT = process.env.PORT || 8060;
+//-- SET UPs  --//
+const PORT = process.env.PORT || 8060; // PORT setup
+app.use(bodyParser.urlencoded({ extended: true})); //body parser setup
+app.use(methodOveride('_method')); //method override setup
 
-app.use('/', system); //Sends us to loging or register
-app.use(bodyParser.urlencoded({ extended: true}));
-
-app.use(methodOveride('_method'));
-
-app.engine('.hbs', exphbs({
+app.engine('.hbs', exphbs({ //hbs setup
   defaultLayout: 'main',
   extname: '.hbs'
 }));
@@ -31,9 +29,8 @@ app.use(session({
   saveUninitialized: true
 }))
 
+//-- Passport stuff --//
 const User = require('./db/models/User');
-
-// Passport stuff
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -49,7 +46,6 @@ passport.deserializeUser((user, done) => {
   console.log('deserializing');
   new User({ id: user.id}).fetch()
   .then(user => {
-    // user = user.toJSON(); // Parse this for urlEncoded
     user = JSON.parse(JSON.stringify(user));
     return done(null, {
       id: user.id,
@@ -84,34 +80,13 @@ passport.use(new localStrategy(function(username, password, done) {
   })
 }));
 
-app.post('/register', (req, res) => {
-  return new User ({
-    username: req.body.username,
-    password: req.body.password
-  })
-  .save()
-  .then((user) => {
-    console.log(user);
-    res.redirect('/');
-  })
-  .catch( err => {
-    console.log(err);
-    return res.send('could not register you!');
-  })
-});
 
-app.post('/login', passport.authenticate('local', {
-  successRedirect: '/gallery',
-  failureRedirect: '/'
-}));
+//-- ROUTES --//
+app.use('/', system); // sends us to loging or register
+app.use('/gallery', gallery); // sends us to gallery
 
 
-
-//-----------------------------------//
-
-app.use('/gallery', gallery);
-
-
+//-- 404 and Errors --//
 app.get('*', (req, res) => {
   res.status(404).send({'message': 'Page not found!'});
 });
