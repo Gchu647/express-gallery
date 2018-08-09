@@ -2,9 +2,16 @@ const express = require('express');
 const router = express.Router();
 const Photo = require('../db/models/Photo');
 
+function isAuthenticated (req, res, next) {
+  if(req.isAuthenticated()) {next();}
+  else {res.redirect('/'); }
+}
+
+
+
 router.route('/')
   // post a new photo up
-  .post((req, res) => {
+  .post(isAuthenticated, (req, res) => {
     let { author, link, description } = req.body;
     author = author.trim();
     link = link.trim();
@@ -20,7 +27,7 @@ router.route('/')
       });
   })
   // return all the photos in our gallery
-  .get((req, res) => {
+  .get(isAuthenticated, (req, res) => {
     return Photo.fetchAll()
       .then( photos => {
         // converts the weird object from db to and usable object

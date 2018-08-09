@@ -97,7 +97,7 @@ app.post('/register', (req, res) => {
 });
 
 app.post('/login', passport.authenticate('local', {
-  successRedirect: '/secret',
+  successRedirect: '/gallery',
   failureRedirect: '/'
 }));
 
