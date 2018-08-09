@@ -8,12 +8,12 @@ const localStrategy = require('passport-local');
 const exphbs = require('express-handlebars');
 const methodOveride = require('method-override');
 const gallery = require('./routes/gallery');
-const users = require('./routes/users');
+const system = require('./routes/system');
 
 //-- SET UP  --//
 const PORT = process.env.PORT || 8060;
 
-app.use('/', users); //Sends us to loging or register
+app.use('/', system); //Sends us to loging or register
 app.use(bodyParser.urlencoded({ extended: true}));
 
 app.use(methodOveride('_method'));
@@ -92,7 +92,7 @@ app.post('/register', (req, res) => {
   .save()
   .then((user) => {
     console.log(user);
-    res.redirect('/user/login');
+    res.redirect('/');
   })
   .catch( err => {
     console.log(err);
@@ -102,7 +102,7 @@ app.post('/register', (req, res) => {
 
 app.post('/login', passport.authenticate('local', {
   successRedirect: '/gallery',
-  failureRedirect: '/user/login'
+  failureRedirect: '/'
 }));
 
 
