@@ -13,7 +13,8 @@ router.get('/', (req, res) => {
 // user login
 router.route('/login')
   .get((req, res) => {
-    res.render('system/login');
+    res.render('system/login', regCheck);
+    regCheck.show = false; // not show reg status
   })
   .post( passport.authenticate('local', {
     successRedirect: '/gallery',
@@ -23,6 +24,10 @@ router.route('/login')
 // user logout
 router.get('/logout', (req, res) => {
   req.logout();
+  // bad messaging
+  regCheck.show = true;
+  regCheck.message = 'Logged out!';
+  regCheck.class_name = 'regSuccess';
   res.redirect('/login');
 })
 
@@ -43,17 +48,30 @@ router.route('/register')
         })
         .save()
         .then((user) => {
-          console.log(user);
+          regCheck.show = true;
+          regCheck.message = 'User Registered';
+          regCheck.class_name = 'regSuccess';
+
           res.redirect('/login');
         })
         .catch( err => {
           console.log(err);
-          return res.send('could not register you!');
+          regCheck.show = true;
+          regCheck.message = 'Username or Password Already Exist';
+
+          return res.render('system/register', regCheck);
         })
 
       })
     })
 
   });
+
+  // Tracks the registration status
+  var regCheck = {
+    'show':false,
+    'message': '',
+    'class_name': 'regFail'
+  };
 
 module.exports = router;
