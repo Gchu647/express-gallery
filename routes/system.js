@@ -41,10 +41,14 @@ router.route('/register')
       if (err) { res.status(500); }
       bcrypt.hash(req.body.password, salt, (err, hashedPassword) => {
         if (err) { res.status(500); }
+
+        console.log('registration information: ', req.body)
         
         return new User ({
           username: req.body.username,
-          password: hashedPassword
+          password: hashedPassword,
+          name: req.body.name,
+          email: req.body.email
         })
         .save()
         .then((user) => {
@@ -57,7 +61,8 @@ router.route('/register')
         .catch( err => {
           console.log(err);
           regCheck.show = true;
-          regCheck.message = 'Username or Password Already Exist';
+          regCheck.message = 'Username Already Exist';
+          regCheck.class_name = 'regFail';
 
           return res.render('system/register', regCheck);
         })
@@ -67,7 +72,7 @@ router.route('/register')
 
   });
 
-  // Tracks the registration status
+  // Tracks the registration status, need to swtich to connect-flash
   var regCheck = {
     'show':false,
     'message': '',
