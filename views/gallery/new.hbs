@@ -1,7 +1,8 @@
 <h1>New Photo</h1>
 <form action='/gallery' method='POST'>
-  <label for='author'>Author: </label>
-  <input name='author' type='text' value='{{author}}' readonly>
+  <label for='author'>Author:  <b>{{author}}</b></label>
+  <input name='author' type='hidden' value='{{author}}'>
+  <input name='author_id' type='hidden' value='{{author_id}}'>
 
   <br><br>
   <label for='link'>Photo Link: </label>

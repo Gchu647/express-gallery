@@ -6,12 +6,13 @@ const isAuthenticated = require('../middleware/isAuthenticated');
 router.route('/')
   // post a new photo up
   .post(isAuthenticated, (req, res) => {
-    let { author, link, description } = req.body;
+    let { author, author_id, link, description } = req.body;
+    console.log('POST got author_id: ', author_id);
     author = author.trim();
     link = link.trim();
     description = description.trim();
 
-    return new Photo({ author, link, description })
+    return new Photo({ author, author_id, link, description })
       .save()
       .then( photo => {
         // to do: add a photo posted message
@@ -35,10 +36,9 @@ router.route('/')
 
   // gets form to post pictures WORKING ON
   router.get('/new', isAuthenticated, (req, res) => {
-    console.log('usser GET new: ', req.session.passport.user);
-    const author = req.session.passport.user.username;
-    // pass in a user id too!
-    res.render('gallery/new', { author });
+    console.log('user GET new: ', req.session.passport.user);
+    let { author, author_id } = req.session.passport.user; 
+    res.render('gallery/new', { author, author_id });
   })
 
   // gets form to edit pictures
@@ -105,7 +105,6 @@ router.route('/')
           return res.json({ message: err.message });
         });
   })
-
 
 
 module.exports = router;
