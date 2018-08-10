@@ -14,7 +14,7 @@ const system = require('./routes/system');
 
 //-- SET UPs  --//
 const PORT = process.env.PORT || 8060; // PORT setup
-app.use(express.static('public')); // sets the root file
+app.use(express.static('public')); // sets up the root doler
 app.use(bodyParser.urlencoded({ extended: true})); //body parser setup
 app.use(methodOveride('_method')); //method override setup
 

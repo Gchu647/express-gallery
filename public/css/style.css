@@ -1,2 +1,41 @@
 body {
-  background-color: lightsalmon; }
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: center;
+  font-family: 'Poppins', sans-serif; }
+  body a:link, body a:visited {
+    text-decoration: none;
+    color: #8b98af; }
+  body a:hover {
+    text-decoration: none;
+    color: #4cb2c4; }
+  body .regFail {
+    color: #e85353; }
+  body .regSuccess {
+    color: #40c969; }
+
+input[type=submit] {
+  width: 80px;
+  height: 35px;
+  border: solid 1px #5f6879;
+  background-color: white;
+  color: #5f6879;
+  font-size: 18px; }
+
+input[type=submit]:hover {
+  width: 80px;
+  height: 35px;
+  border: solid 1px #4cb2c4;
+  background-color: #4cb2c4;
+  color: white;
+  font-size: 18px; }
+
+/*
+#container {
+  display: flex;
+  flex-flow:row wrap;
+  justify-content: center;
+  border: solid 2px steelblue;
+  width: 480px;
+}
+*/
