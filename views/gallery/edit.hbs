@@ -1,7 +1,7 @@
 <h1>Edit Photo</h1>
 <form action='/gallery/{{id}}?_method=PUT' method='POST'>
-  <label for='author'>Author: </label>
-  <input name='author' type='text' value='{{author}}'required>
+  <label for='author'>Author: <b>{{author}}</b></label>
+  <input name='author' type='hidden' value='{{author}}'required>
 
   <br><br>
   <label for='link'>Photo Link: </label>
