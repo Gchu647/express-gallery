@@ -44,7 +44,7 @@ router.route('/register')
         .save()
         .then((user) => {
           console.log(user);
-          res.redirect('/');
+          res.redirect('/login');
         })
         .catch( err => {
           console.log(err);
