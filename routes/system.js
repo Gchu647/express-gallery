@@ -13,7 +13,7 @@ router.get('/', (req, res) => {
 // user login
 router.route('/login')
   .get((req, res) => {
-    res.render('users/login');
+    res.render('system/login');
   })
   .post( passport.authenticate('local', {
     successRedirect: '/gallery',
@@ -29,7 +29,7 @@ router.get('/logout', (req, res) => {
   // user registration
 router.route('/register')
   .get((req, res) => {
-    res.render('users/register');
+    res.render('system/register');
   })
   .post((req, res) => {
     bcrypt.genSalt(saltedRounds, (err, salt) => {
