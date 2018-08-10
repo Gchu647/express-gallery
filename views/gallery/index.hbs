@@ -4,13 +4,17 @@
   }
 </style>
 
-<form action='/gallery/new' method='GET'>
-  <input type='submit' value='new'>
-</form>
-<br>
-<form action='/logout' method='GET'>
-  <input type='submit' value='logout'>
-</form>
+<div class='nav-buttons'>
+  <form action='/gallery/new' method='GET'>
+    <input type='submit' value='new'>
+  </form>
+  <form action='/logout' method='GET'>
+    <input type='submit' value='logout'>
+  </form>
+  <form action='/gallery' method='GET'>
+    <input type='submit' value='profile'>
+  </form>
+</div>
 
 <div class='collection'>
 {{#each collection}}

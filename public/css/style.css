@@ -30,6 +30,12 @@ input[type=submit]:hover {
   color: white;
   font-size: 18px; }
 
+.nav-buttons {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-between;
+  width: 300px; }
+
 /*
 #container {
   display: flex;

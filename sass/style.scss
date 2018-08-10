@@ -2,8 +2,8 @@ body {
   display: flex;
   flex-flow:row nowrap;
   justify-content: center;
-
   font-family: 'Poppins', sans-serif;
+
   a:link, a:visited{
     text-decoration: none;
     color: #8b98af;
@@ -36,6 +36,13 @@ input[type=submit]:hover {
   background-color: #4cb2c4;
   color: white;
   font-size: 18px;
+}
+
+.nav-buttons {
+  display: flex;
+  flex-flow:row wrap;
+  justify-content: space-between;
+  width: 300px;
 }
 
 /*
