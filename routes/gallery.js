@@ -37,7 +37,8 @@ router.route('/')
   // gets form to post pictures WORKING ON
   router.get('/new', isAuthenticated, (req, res) => {
     console.log('user GET new: ', req.session.passport.user);
-    let { author, author_id } = req.session.passport.user; 
+    const author = req.session.passport.user.username; 
+    const author_id = req.session.passport.user.id;
     res.render('gallery/new', { author, author_id });
   })
 
@@ -99,7 +100,8 @@ router.route('/')
         .where({ id })
         .destroy()
         .then( photo => {
-          return res.json(photo);
+          // to do: message with photo deleted
+          return res.redirect('/gallery');
         })
         .catch(err => {
           return res.json({ message: err.message });
