@@ -7,6 +7,10 @@
 <form action='/gallery/new' method='GET'>
   <input type='submit' value='new'>
 </form>
+<br>
+<form action='/logout' method='GET'>
+  <input type='submit' value='logout'>
+</form>
 
 <div class='collection'>
 {{#each collection}}
@@ -18,10 +22,9 @@
 {{/each}}
 </div>
 
-<!--
-https://c1.staticflickr.com/4/3105/2441497543_2f87539f3e.jpg
-https://c1.staticflickr.com/1/980/41968856151_cfc1be3e0e_n.jpg
-https://c1.staticflickr.com/1/972/40162012760_0c7b37fc3f_z.jpg
-https://c1.staticflickr.com/5/4627/39594712551_8a74dc1a51_n.jpg
-https://c1.staticflickr.com/5/4466/37907929366_3f3909d0a2_n.jpg
+<!-- 
+Error 1: Wrong password or username
+Error 2: Registration success
+Error 3: Please Login First (when path is not Authenticated)
+Message: Succesfully logged out
 -->

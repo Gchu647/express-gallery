@@ -10,7 +10,7 @@ router.get('/', (req, res) => {
   res.redirect('/login');
 });
 
-// user logging
+// user login
 router.route('/login')
   .get((req, res) => {
     res.render('users/login');
@@ -19,6 +19,12 @@ router.route('/login')
     successRedirect: '/gallery',
     failureRedirect: '/'
   }));
+
+// user logout
+router.get('/logout', (req, res) => {
+  req.logout();
+  res.redirect('/login');
+})
 
   // user registration
 router.route('/register')
