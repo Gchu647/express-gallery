@@ -26,8 +26,10 @@ router.route('/')
   .get(isAuthenticated, (req, res) => {
     return Photo.fetchAll()
       .then( photos => {
+        const userId = req.session.passport.user.id;
         const collection = JSON.parse(JSON.stringify(photos));
-        res.render('gallery/index', { collection });
+       
+        res.render('gallery/index', { userId, collection });
       })
       .catch(err => {
         return res.json({ message: err.message });
