@@ -10,6 +10,7 @@ const exphbs = require('express-handlebars');
 const methodOveride = require('method-override');
 const bcrypt = require('bcrypt');
 const gallery = require('./routes/gallery');
+const profile = require('./routes/profile');
 const system = require('./routes/system');
 
 //-- SET UPs  --//
@@ -89,6 +90,7 @@ passport.use(new localStrategy(function(username, password, done) {
 //-- ROUTES --//
 app.use('/', system); // sends us to loging or register
 app.use('/gallery', gallery); // sends us to gallery
+app.use('/profile', profile); // sends us to profile
 
 
 //-- 404 and Errors --//
