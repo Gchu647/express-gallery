@@ -7,7 +7,6 @@ router.route('/')
   // post a new photo up
   .post(isAuthenticated, (req, res) => {
     let { author, author_id, link, description } = req.body;
-    console.log('POST got author_id: ', author_id);
     author = author.trim();
     link = link.trim();
     description = description.trim();
@@ -98,10 +97,12 @@ router.route('/')
     //deletes a photo by id
     .delete(isAuthenticated, (req, res) => {
       const id = req.params.id;
+      // Need if statment to stop incoorect user from deleting WORKING
       return new Photo()
         .where({ id })
         .destroy()
         .then( photo => {
+          console.log('deleting photo: ', photo);
           // to do: message with photo deleted
           return res.redirect('/gallery');
         })
