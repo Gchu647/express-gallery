@@ -66,6 +66,7 @@ router.route('/')
 
           let photoObj = JSON.parse(JSON.stringify(photo));
           photoObj.id = id;
+          
           return res.render('gallery/photo', photoObj);
         })
         .catch( err => {
@@ -97,19 +98,28 @@ router.route('/')
     //deletes a photo by id
     .delete(isAuthenticated, (req, res) => {
       const id = req.params.id;
-      // Need if statment to stop incoorect user from deleting WORKING
-      return new Photo()
+      const userId = parseInt(req.session.passport.user.id); // current user
+      const authorId = parseInt(req.body.author_id); // author of the book
+
+      console.log('userId: ', userId);
+      console.log('author_id: ', authorId);
+
+      if(userId === authorId) {
+        return new Photo()
         .where({ id })
         .destroy()
         .then( photo => {
           console.log('deleting photo: ', photo);
-          // to do: message with photo deleted
           return res.redirect('/gallery');
         })
         .catch(err => {
           return res.json({ message: err.message });
-        });
-  })
+        }); 
+      } else {
+        // render a page with the difference
+          return res.status(400).send('Unauthorized');
+      }
+    })
 
 
 module.exports = router;
